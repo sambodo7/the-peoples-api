@@ -1,0 +1,19 @@
+{
+  "name": "the-peoples-api",
+  "version": "0.0.1",
+  "description": "A api of the peoples of earth",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sambodo7/the-peoples-api.git"
+  },
+  "author": "sambodo7",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sambodo7/the-peoples-api/issues"
+  },
+  "homepage": "https://github.com/sambodo7/the-peoples-api#readme"
+}
