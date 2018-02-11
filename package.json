@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/sambodo7/the-peoples-api#readme",
   "dependencies": {
-    "restify": "^6.3.4"
+    "restify": "^6.3.4",
+    "restify-router": "^0.5.0"
   }
 }
