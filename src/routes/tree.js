@@ -1,10 +1,19 @@
+/*eslint-env node, es6*/
 const Router = require("restify-router").Router;
+const http = require("http");
 
 const router = new Router();
 
 router.get("/", (req, res, next) => {
 
-	res.send("tree");
+	const {host} = req.headers;
+
+	const response = {
+		trees: ["realPeople","testPeople"],
+		uri: `https://${host}/tree/{treeName}`
+	}
+
+	res.json(response);
     return next();
 
 });
