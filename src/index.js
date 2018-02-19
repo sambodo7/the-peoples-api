@@ -2,12 +2,13 @@
 const restify = require("restify");
 const config = require("./config");
 const treeRouter = require("./routes/tree.js"); // return a Router with only posts route definitions
+const homeResponse = require("./json-resolved/swagger.json")
 
 const server = restify.createServer();
 
 server.get("/", (req, res, next) => {
 
-    res.send("home");
+    res.json(homeResponse);
     return next();
 
 });
