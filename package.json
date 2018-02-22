@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/sambodo7/the-peoples-api#readme",
   "dependencies": {
+    "neo4j-driver": "^1.5.3",
     "restify": "^6.3.4",
     "restify-router": "^0.5.0"
   }
