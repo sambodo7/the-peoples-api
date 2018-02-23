@@ -10,6 +10,8 @@ router.get("/", (req, res, next) => {
 
 	runCypher( `match (n) where id(n) = ${nodeID} return n;`, (err, data) => {
 
+		if (err) { return next(err) }
+
 	    res.json(data.records[0]);
 	    return next();
 
