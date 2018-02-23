@@ -2,10 +2,10 @@
 const neo4j = require("neo4j-driver").v1;
 const config = require("../config")
 
-const driver = neo4j.driver("bolt://hobby-geefdaeefcom.dbs.graphenedb.com:24786", neo4j.auth.basic("v303", "GtGq5rldxu"));
+const driver = neo4j.driver( config.neo4jURL, neo4j.auth.basic(config.neo4jUser, config.neo4jPass) );
 
 
-function runCyper(statement, callback) {
+function runCypher(statement, callback) {
 
 const session = driver.session();
 session
@@ -13,12 +13,13 @@ session
     .then( result => {
         
         session.close();
-        callback(result);
+        callback(null, result);
     })
     .catch( error => {
         console.log(error);
+        callback(error);
     });
 
 }
 
-module.exports = runCyper
+module.exports = runCypher
