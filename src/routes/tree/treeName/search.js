@@ -1,3 +1,4 @@
+/*eslint-env node, es6*/
 const Router = require("restify-router").Router;
 
 const router = new Router();

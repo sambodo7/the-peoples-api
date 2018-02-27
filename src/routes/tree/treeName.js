@@ -5,9 +5,7 @@ const router = new Router();
 
 router.get("/", (req, res, next) => {
 
-	const {host} = req.headers;
-	const {url} = req;
-	const protocol = req.isSecure() ? "https" : "http";
+	const {host, protocol, url} = req;
 
 	res.json({
 		searchURI: `${protocol}://${host}${url}/{search}`,

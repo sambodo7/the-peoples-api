@@ -1,17 +1,16 @@
 /*eslint-env node, es6*/
 const Router = require("restify-router").Router;
 const http = require("http");
+const config = require("../config");
 
 const router = new Router();
 
 router.get("/", (req, res, next) => {
 
-	const {host} = req.headers;
-	const {url} = req;
-	const protocol = req.isSecure() ? "https" : "http";
+	const {host, protocol, url} = req;
 
 	const response = {
-		trees: ["realPeople","testPeople"],
+		trees: config.trees.map( x => x.name ),
 		uri: `${protocol}://${host}${url}/{treeName}`
 	}
 
