@@ -8,7 +8,7 @@ router.get("/", (req, res, next) => {
 
 	const nodeID = req.params.nodeID;
 
-	runCypher( req.param.treeName, `match (n) where id(n) = ${nodeID} return n;`, (err, data) => {
+	runCypher( req.params.treeName, `match (n) where id(n) = ${nodeID} return n;`, (err, data) => {
 
 		if (err) { return next(err) }
 
