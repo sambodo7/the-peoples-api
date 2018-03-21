@@ -12,7 +12,7 @@ server.use( require("./middleware/empowerReq") );
 
 server.param( "treeName", (req, res, next) => {
 
-    if ( !!~trees.indexOf( req.params.treeName ) ) {
+    if ( !~trees.indexOf( req.params.treeName ) ) {
         return next( new errs.NotFoundError(`There is no tree called ${req.params.treeName} here`) );
     } else {
         return next();

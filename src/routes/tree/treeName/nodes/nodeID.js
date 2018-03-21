@@ -1,5 +1,6 @@
 /*eslint-env node, es6*/
 const Router = require("restify-router").Router;
+const errs = require('restify-errors');
 const runCypher = require("../../../../db/neo4j.js")
 
 const router = new Router();
@@ -7,10 +8,18 @@ const router = new Router();
 router.get("/", (req, res, next) => {
 
 	const nodeID = req.params.nodeID;
+	const cypher = `match (n) where id(n) = ${nodeID} return n;`
 
-	runCypher( req.params.treeName, `match (n) where id(n) = ${nodeID} return n;`, (err, data) => {
+	console.trace( `running cypher on tree ${req.params.treeName}: ${cypher}` );
 
-		if (err) { return next(err) }
+	runCypher( req.params.treeName, cypher, (err, data) => {
+
+		if (err) {
+
+		    console.error( `Failed cypher: ${cypher}`, err ) 
+			return next( new errs.ServiceUnavailableError( `We are having problems with the ${req.params.treeName} tree`) );
+			
+		}
 
 	    res.json(data.records[0]);
 	    return next();

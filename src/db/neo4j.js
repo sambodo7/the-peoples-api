@@ -17,7 +17,7 @@ function runCypher(tree, statement, callback) {
 	        callback(null, result);
 	    })
 	    .catch( error => {
-	        console.log(error);
+	        console.error(error);
 	        callback(error);
 	    });
 
