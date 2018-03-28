@@ -7,7 +7,7 @@ const drivers = config.trees.map( x => {
 } ).reduce( ( acc, cur, i, array ) => { return { ...acc, [cur.name]: cur.driver }; }, {} );
 
 function runCypher(tree, statement, callback) {
-
+	
 	const session = drivers[tree].session();
 	session
 	    .run(statement)

@@ -6,14 +6,15 @@ const config = require("../src/config")
 //Require the dev-dependencies
 const chai = require("chai");
 const chaiHttp = require("chai-http");
+const fs = require("fs");
 const should = chai.should();
 
 chai.use(chaiHttp);
 
 
-describe("PersonID when connection to database is down", () => {
+describe("PersonID when connection to database is down @network", () => {
 
-    describe("/GET PersonID @network", () => {
+    describe("/GET PersonID", () => {
 
         it("it should respone with a status 503 and message", (done) => {
 
@@ -37,17 +38,18 @@ describe("PersonID @integration", () => {
     beforeEach( (done) => {
         
         runCypher( config.testTree, "MATCH (n) DETACH DELETE n", (err) => {
-            runCypher( config.testTree, "", done );
+            const cypher = fs.readFileSync("/home/sam/Dev/the-peoples-api/test/data/sampleData.cql", "utf8");
+            runCypher( config.testTree, cypher, done );
         } );
 
     });
 
     describe("/GET PersonID", () => {
 
-        it("it should GET information about person with ID 1", (done) => {
+        it("it should GET information about person with ID 1FBBA2345", (done) => {
 
             chai.request(`http://${config.testURL}:${config.port}`)
-            .get( `/tree/${config.testTree}/nodes/1` )
+            .get( `/tree/${config.testTree}/nodes/1FBBA2345` )
             .end((err, res) => {
 
                 if ( err ) {
@@ -55,6 +57,7 @@ describe("PersonID @integration", () => {
                 }
                 res.should.have.status(200);
                 res.body.should.be.a("object");
+
                 done();
 
             });
