@@ -16,9 +16,16 @@ router.get("/", (req, res, next) => {
 
 		if (err) {
 
-		    console.error( `Failed cypher: ${cypher}`, err ) 
+		    console.error( `Failed cypher: ${cypher}`, err );
 			return next( new errs.ServiceUnavailableError( `We are having problems with the ${req.params.treeName} tree`) );
 			
+		}
+
+		if ( !data.records.length ) {
+
+			console.info( `No results for ${req.getPath()}` );
+			return next( new errs.NotFoundError( `we could not find a result for personID ${req.params.nodeID}` ) );
+
 		}
 
 	    res.json(data.records[0]);

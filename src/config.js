@@ -14,12 +14,13 @@ const config = {
         {
             name:"testPeople",
             neo4jURL: env.NEO4J_URL || "bolt://localhost:7687",
-            neo4jUser: env.NEO4J_USER || "admin",
-            neo4jPass: env.NEO4J_PASS || "admin"
+            neo4jUser: env.NEO4J_USER || "neo4j",
+            neo4jPass: env.NEO4J_PASS || "password"
         }
     ],
     port: env.START_PORT || 8280,
-    testURL: env.TESTURL || "localhost"
+    testURL: env.TESTURL || "localhost",
+    testTree: "testPeople"
 
 }
 

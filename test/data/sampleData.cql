@@ -1,0 +1,1 @@
+CREATE (Frodo:Hobit{firstName:"Frodo",lastName:"Baggins",DOB:"2968-09-22",sex:"Male",alias:"Nine-Fingered Frodo"})
