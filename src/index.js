@@ -9,6 +9,7 @@ const server = restify.createServer();
 const trees = config.trees.map( x => x.name );
 
 server.use( require("./middleware/empowerReq") );
+server.use( require("./middleware/baseJSONResponse") );
 
 server.param( "treeName", (req, res, next) => {
 

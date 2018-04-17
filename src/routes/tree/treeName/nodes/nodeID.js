@@ -5,6 +5,16 @@ const runCypher = require("../../../../db/neo4j.js")
 
 const router = new Router();
 
+const nodeIDBaseResponse = { 
+    methods: ["GET", "PUT", "DELETE" ],
+    mappings: { 
+        firstName: "string",
+        middleName: "string",
+        lastName: "string"
+
+    } 
+};
+
 router.get("/", (req, res, next) => {
 
     const nodeID = req.params.nodeID;
@@ -28,22 +38,32 @@ router.get("/", (req, res, next) => {
 
         }
 
-        res.json(data.records[0]);
+        res.json(Object.assign ( {}, res.jsonBase, data.records[0]) );
         return next();
 
     } );
 
 } );
 
-router.post("/", (req, res, next) => {
-
-    return next();
-
-} );
-
 router.put("/", (req, res, next) => {
 
-    return next();
+    const nodeID = req.params.nodeID;
+    const cypher = `match (n{id:"${nodeID}"}) DETACH DELETE n;`;
+
+    runCypher( req.params.treeName, cypher, (err, data) => {
+
+        if (err) {
+
+            console.error( `Failed cypher: ${cypher}`, err );
+            return next( new errs.ServiceUnavailableError( `We are having problems with the ${req.params.treeName} tree`) );
+            
+        }
+
+        res.json(data.records[0]);
+        return next();
+
+    } );
+
 } );
 
 router.del("/", (req, res, next) => {

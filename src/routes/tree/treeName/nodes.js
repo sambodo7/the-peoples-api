@@ -14,6 +14,12 @@ router.get("/", (req, res, next) => {
 
 } );
 
+router.post("/", (req, res, next) => {
+
+    return next();
+
+} );
+
 router.add("/:nodeID", require("./nodes/nodeID.js") );
 
 module.exports = router;
