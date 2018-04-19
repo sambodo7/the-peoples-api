@@ -8,9 +8,17 @@ const router = new Router();
 const nodeIDBaseResponse = { 
     methods: ["GET", "PUT", "DELETE" ],
     mappings: { 
-        firstName: "string",
-        middleName: "string",
-        lastName: "string"
+        firstName: "string, maxLength=50,First name of person at time of Death",
+        middleName: "string, maxLength=150, Middle name of person at time of Death",
+        lastName: "string, maxLength=150, Last name of person at time of Death",
+        alais: "string, maxLength=50, Nickname/Nicknames of a person given are recorded by them",
+        DOB: "ISO date string, YYYYMMDD, Date of Birth the person was born",
+        sex: "ENUM, Male/Female, Biologic sex assigned to person at time of birth",
+        DOD: "ISO date string, YYYYMMDD, Date the Person Died",
+        synopsis: "string, maxLength=3600, A brief info about the person, If you want to write a story about the person put it on wikipedia or something"
+        children: "array, Array of node id of offspring of person",
+        mother: "id, Node id of biological mother",
+        father: "id, Node id of biological father",
 
     } 
 };
