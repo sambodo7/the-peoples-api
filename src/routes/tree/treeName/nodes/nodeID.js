@@ -6,7 +6,7 @@ const runCypher = require("../../../../db/neo4j.js")
 const router = new Router();
 
 const nodeIDBaseResponse = { 
-    methods: ["GET", "PUT", "DELETE" ],
+    verbs: ["GET", "PUT", "DELETE" ],
     mappings: { 
         firstName: "string, maxLength=50,First name of person at time of Death",
         middleName: "string, maxLength=150, Middle name of person at time of Death",
@@ -19,6 +19,9 @@ const nodeIDBaseResponse = {
         children: "array, Array of node id of offspring of person",
         mother: "id, Node id of biological mother",
         father: "id, Node id of biological father",
+        facebookID: "int, FacebookID of person",
+        resource: "array, an array of hyperlinks to resources",
+        wikipedia:"href, Link to wikipedia page about person"
 
     } 
 };

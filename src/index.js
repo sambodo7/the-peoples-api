@@ -1,8 +1,8 @@
 /*eslint-env node, es6*/
-const restify = require("restify");
-const errs = require('restify-errors');
-const config = require("./config");
-const treeRouter = require("./routes/tree.js");
+const restify =      require("restify");
+const errs =         require('restify-errors');
+const config =       require("./config");
+const treeRouter =   require("./routes/tree.js");
 const homeResponse = require("./json-resolved/swagger.json");
 
 const server = restify.createServer();
