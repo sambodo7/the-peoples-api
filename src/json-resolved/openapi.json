@@ -1,0 +1,273 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "The People's API",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://thepeopletree.ie/api",
+      "description": "The production API server"
+    },
+    {
+      "url": "{protocol}://localhost:{port}/api",
+      "description": "Your local dev API server",
+      "variables": {
+        "protocol": {
+          "enum": [
+            "http",
+            "https"
+          ],
+          "default": "http"
+        },
+        "port": {
+          "default": "80"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/tree": {
+      "get": {
+        "summary": "List all trees",
+        "operationId": "listTrees",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ReqID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of trees",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pets"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tree/{treeName}": {
+      "get": {
+        "summary": "Info for a specific tree",
+        "operationId": "showTreeById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/TreeName"
+          },
+          {
+            "$ref": "#/components/parameters/ReqID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Expected response to a valid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pets"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Can not find treeName",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tree/{treeName}/nodes": {
+      "get": {
+        "summary": "Info for a specific tree",
+        "operationId": "showTreeNodes",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/TreeName"
+          },
+          {
+            "$ref": "#/components/parameters/ReqID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Expected response to a valid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pets"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tree/{treeName}/search": {
+      "get": {
+        "summary": "Info for a specific tree",
+        "operationId": "showTreeNodes",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/TreeName"
+          },
+          {
+            "$ref": "#/components/parameters/ReqID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Expected response to a valid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pets"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tree/{treeName}/nodes/{nodeID}": {
+      "get": {
+        "summary": "Info for a specific tree",
+        "operationId": "showTreeNodes",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/TreeName"
+          },
+          {
+            "$ref": "#/components/parameters/ReqID"
+          },
+          {
+            "name": "nodeID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Hex number represents id of node",
+              "maxLength": 10,
+              "minLength": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Expected response to a valid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pets"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "TreeName": {
+        "name": "treeName",
+        "in": "path",
+        "required": true,
+        "description": "The id of the tree to retrieve",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "ReqID": {
+        "name": "reqID",
+        "in": "header",
+        "schema": {
+          "type": "integer"
+        }
+      }
+    },
+    "schemas": {
+      "Pet": {
+        "required": [
+          "id",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          }
+        }
+      },
+      "Pets": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Pet"
+        }
+      },
+      "Error": {
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
