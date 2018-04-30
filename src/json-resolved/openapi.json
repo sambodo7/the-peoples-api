@@ -3,6 +3,7 @@
   "info": {
     "version": "1.0.0",
     "title": "The People's API",
+    "description": "This is the main API used for thepeopletree UI",
     "license": {
       "name": "MIT"
     }
@@ -90,9 +91,9 @@
       }
     },
     "/tree/{treeName}/nodes": {
-      "get": {
-        "summary": "Info for a specific tree",
-        "operationId": "showTreeNodes",
+      "post": {
+        "summary": "Post a new node",
+        "operationId": "createTreeNode",
         "parameters": [
           {
             "$ref": "#/components/parameters/TreeName"
@@ -102,7 +103,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "Expected response to a valid request",
             "content": {
               "application/json": {
@@ -127,7 +128,7 @@
     },
     "/tree/{treeName}/search": {
       "get": {
-        "summary": "Info for a specific tree",
+        "summary": "Search for a tree node",
         "operationId": "showTreeNodes",
         "parameters": [
           {
@@ -163,7 +164,7 @@
     },
     "/tree/{treeName}/nodes/{nodeID}": {
       "get": {
-        "summary": "Info for a specific tree",
+        "summary": "Info for a specific node on tree",
         "operationId": "showTreeNodes",
         "parameters": [
           {
@@ -173,15 +174,7 @@
             "$ref": "#/components/parameters/ReqID"
           },
           {
-            "name": "nodeID",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "description": "Hex number represents id of node",
-              "maxLength": 10,
-              "minLength": 10
-            }
+            "$ref": "#/components/parameters/NodeID"
           }
         ],
         "responses": {
@@ -206,6 +199,46 @@
             }
           }
         }
+      },
+      "put": {
+        "summary": "Update a node",
+        "operationId": "updateTreeNodes",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/TreeName"
+          },
+          {
+            "$ref": "#/components/parameters/ReqID"
+          },
+          {
+            "$ref": "#/components/parameters/NodeID"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Expected response to a valid request"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a node",
+        "operationId": "deleteTreeNodes",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/TreeName"
+          },
+          {
+            "$ref": "#/components/parameters/ReqID"
+          },
+          {
+            "$ref": "#/components/parameters/NodeID"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Expected response to a valid request"
+          }
+        }
       }
     }
   },
@@ -225,6 +258,17 @@
         "in": "header",
         "schema": {
           "type": "integer"
+        }
+      },
+      "NodeID": {
+        "name": "nodeID",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "description": "Hex number represents id of node",
+          "maxLength": 10,
+          "minLength": 10
         }
       }
     },
