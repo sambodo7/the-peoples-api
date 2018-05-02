@@ -38,6 +38,9 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/ReqID"
+          },
+          {
+            "$ref": "#/components/parameters/AcceptLanguage"
           }
         ],
         "responses": {
@@ -46,7 +49,15 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Pets"
+                  "$ref": "#/components/schemas/Tree"
+                }
+              }
+            },
+            "links": {
+              "tree": {
+                "operationId": "showTreeById",
+                "parameters": {
+                  "treeName": "$response.body#"
                 }
               }
             }
@@ -256,6 +267,7 @@
       "ReqID": {
         "name": "reqID",
         "in": "header",
+        "description": "Used to trace logging",
         "schema": {
           "type": "integer"
         }
@@ -270,9 +282,31 @@
           "maxLength": 10,
           "minLength": 10
         }
+      },
+      "AcceptLanguage": {
+        "name": "Accept-Language",
+        "in": "header",
+        "required": false,
+        "schema": {
+          "default": "en-GB",
+          "type": "string"
+        }
       }
     },
     "schemas": {
+      "Tree": {
+        "type": "array",
+        "items": {
+          "required": [
+            "treeName"
+          ],
+          "properties": {
+            "treeName": {
+              "type": "string"
+            }
+          }
+        }
+      },
       "Pet": {
         "required": [
           "id",
