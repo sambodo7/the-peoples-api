@@ -1,0 +1,191 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: The People's API
+  description: This is the main API used for thepeopletree UI
+  license:
+    name: MIT
+servers:
+  - url: 'https://thepeopletree.ie/api'
+    description: The production API server
+  - url: '{protocol}://localhost:{port}/api'
+    description: Your local dev API server
+    variables:
+      protocol:
+        enum:
+          - http
+          - https
+        default: http
+      port:
+        default: '80'
+paths:
+  /tree:
+    get:
+      summary: List all trees
+      operationId: listTrees
+      parameters:
+        - $ref: '#/components/parameters/ReqID'
+        - $ref: '#/components/parameters/AcceptLanguage'
+      responses:
+        '200':
+          description: A list of trees
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tree'
+          links:
+            tree:
+              operationId: showTreeById
+              parameters:
+                treeName: '$response.body#'
+  '/tree/{treeName}':
+    get:
+      summary: Info for a specific tree
+      operationId: showTreeById
+      parameters:
+        - $ref: '#/components/parameters/TreeName'
+        - $ref: '#/components/parameters/ReqID'
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pets'
+        '404':
+          description: Can not find treeName
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tree/{treeName}/nodes':
+    post:
+      summary: Post a new node
+      operationId: createTreeNode
+      parameters:
+        - $ref: '#/components/parameters/TreeName'
+        - $ref: '#/components/parameters/ReqID'
+      responses:
+        '201':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pets'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tree/{treeName}/search':
+    get:
+      summary: Search for a tree node
+      operationId: showTreeNodes
+      parameters:
+        - $ref: '#/components/parameters/TreeName'
+        - $ref: '#/components/parameters/ReqID'
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pets'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/tree/{treeName}/nodes/{nodeID}':
+    get:
+      summary: Info for a specific node on tree
+      operationId: showTreeNodes
+      parameters:
+        - $ref: '#/components/parameters/TreeName'
+        - $ref: '#/components/parameters/ReqID'
+        - $ref: '#/components/parameters/NodeID'
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pets'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Update a node
+      operationId: updateTreeNodes
+      parameters:
+        - $ref: '#/components/parameters/TreeName'
+        - $ref: '#/components/parameters/ReqID'
+        - $ref: '#/components/parameters/NodeID'
+      responses:
+        '202':
+          description: Expected response to a valid request
+    delete:
+      summary: Delete a node
+      operationId: deleteTreeNodes
+      parameters:
+        - $ref: '#/components/parameters/TreeName'
+        - $ref: '#/components/parameters/ReqID'
+        - $ref: '#/components/parameters/NodeID'
+      responses:
+        '204':
+          description: Expected response to a valid request
+components:
+  parameters:
+    TreeName:
+      name: treeName
+      in: path
+      required: true
+      description: The id of the tree to retrieve
+      schema:
+        type: string
+    ReqID:
+      name: reqID
+      in: header
+      description: Used to trace logging
+      schema:
+        type: integer
+    NodeID:
+      name: nodeID
+      in: path
+      required: true
+      schema:
+        type: string
+        description: Hex number represents id of node
+        maxLength: 10
+        minLength: 10
+    AcceptLanguage:
+      name: Accept-Language
+      in: header
+      required: false
+      schema:
+        default: en-GB
+        type: string
+  schemas:
+    Tree:
+      type: array
+      items:
+        required:
+          - treeName
+        properties:
+          treeName:
+            type: string
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
